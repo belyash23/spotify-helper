@@ -45,7 +45,7 @@ return [
             ],
 
             'handlers' => [
-                // Your update handlers
+                \App\Commands\StartCommand::class
             ],
         ],
 
