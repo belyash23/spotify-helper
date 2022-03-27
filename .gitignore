@@ -1,0 +1,8 @@
+.env
+.config/*
+src/.env
+system/*
+*.rdb
+src/node_modules
+src/vendor
+src/storage/*.key
