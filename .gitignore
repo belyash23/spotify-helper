@@ -6,3 +6,4 @@ system/*
 src/node_modules
 src/vendor
 src/storage/*.key
+.idea
