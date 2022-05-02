@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Models\User;
 use WeStacks\TeleBot\Handlers\CommandHandler;
 
 class StartCommand extends CommandHandler
@@ -11,9 +12,20 @@ class StartCommand extends CommandHandler
 
     public function handle()
     {
+        $this->createUser();
         $this->sendMessage(
             [
                 'text' => 'Для использования бота необходимо авторизоваться в спотифае'
+            ]
+        );
+    }
+
+    protected function createUser() {
+        $id = $this->update->user()->id;
+        
+        User::query()->firstOrCreate(
+            [
+                'telegram_id' => $id
             ]
         );
     }
