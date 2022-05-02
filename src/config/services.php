@@ -30,4 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'spotify' => [
+        'client_id' => env('SPOTIFY_CLIENT_ID'),
+        'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+        'redirect' => env('SPOTIFY_CALLBACK_URL')
+    ],
+
+    'telegram' => [
+        'bot_url' => env('TELEGRAM_BOT_URL')
+    ]
+
 ];
