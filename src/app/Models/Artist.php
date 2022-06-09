@@ -18,6 +18,6 @@ class Artist extends Model
 
     public function playlists()
     {
-        return $this->belongsToMany(Playlist::class);
+        return $this->belongsToMany(Playlist::class, 'playlists_artists');
     }
 }
