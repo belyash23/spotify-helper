@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('key');
             $table->string('value')->nullable();
             $table->foreignId('user_id');
         });

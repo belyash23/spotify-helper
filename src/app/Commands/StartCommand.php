@@ -22,11 +22,6 @@ class StartCommand extends CommandHandler
 
     protected function createUser() {
         $id = $this->update->user()->id;
-        
-        User::query()->firstOrCreate(
-            [
-                'telegram_id' => $id
-            ]
-        );
+        User::create($id);
     }
 }

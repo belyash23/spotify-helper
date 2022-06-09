@@ -22,6 +22,10 @@ class User extends Authenticatable
 
     public $timestamps = false;
     protected static $playlistsLimit = 50;
+    protected static $defaultSettings = [
+        'defaultPlaylistId' => null,
+        'minTracks' => null
+    ];
 
     public function playlists()
     {
@@ -75,5 +79,30 @@ class User extends Authenticatable
         } while ($leftPlaylists > 0);
 
         return $playlists;
+    }
+
+    public static function create($telegramId)
+    {
+        $user = self::findByTelegramId($telegramId);
+        if (!$user) {
+            $user = static::query()->create(
+                [
+                    'telegram_id' => $telegramId
+                ]
+            );
+
+            $settings = [];
+            foreach (self::$defaultSettings as $key => $value) {
+                $settings []= [
+                    'user_id' => $user->id,
+                    'key' => $key,
+                    'value' => $value
+                ];
+            }
+            Settings::insert($settings);
+
+            return $user;
+        }
+        return false;
     }
 }
