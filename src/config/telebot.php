@@ -47,7 +47,8 @@ return [
             'handlers' => [
                 \App\Commands\StartCommand::class,
                 \App\Commands\LoginCommand::class,
-                \App\Commands\GetLastTrack::class
+                \App\Commands\GetLastTrack::class,
+                \App\Commands\SettingsCommand::class
             ],
         ],
 

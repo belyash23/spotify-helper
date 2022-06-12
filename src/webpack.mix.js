@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,7 +10,10 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
+mix.disableNotifications()
+    .js('resources/js/app.js', 'public/js')
+    .js('resources/js/settings.js', 'public/js')
+    .sass('resources/css/main.sass', 'public/css', [
         //
-    ]);
+    ])
+    .copy('resources/svg/preloader.svg', 'public/svg')

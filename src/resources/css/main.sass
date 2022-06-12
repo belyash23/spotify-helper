@@ -1,0 +1,130 @@
+*
+    padding: 0
+    margin: 0
+    font-family: 'Montserrat', sans-serif
+input
+    box-sizing: border-box
+    border: 1px solid hsl(0, 0%, 50%)
+
+.content
+    padding: 5px
+
+.not-validated
+    display: flex
+    justify-content: space-around
+    align-items: center
+    height: calc(100vh - 10px)
+
+.preloader
+    width: 100px
+    outline: none
+
+.section
+    margin-top: 10px
+    width: calc(100% - 10px)
+    background: hsl(0, 0%, 90%)
+    border-radius: 5px
+    padding: 5px
+
+.title
+    display: inline-block
+    font-size: 1.2em
+    width: 100%
+    text-align: center
+.description
+    margin-top: 8px
+    display: inline-block
+    font-size: 0.9em
+    width: 100%
+    text-align: center
+
+.set-default-playlist
+    margin-top: 5px
+    &__select
+        display: block
+        margin: 15px auto
+        width: 200px
+        height: 30px
+        font-size: 1em
+        background: hsl(0, 0%, 100%)
+        cursor: pointer
+        outline: none
+        border: none
+        border-radius: 5px
+        padding: 5px
+
+.disabled
+    pointer-events: none
+    opacity: 0.5
+
+.associate-playlists
+    &__table
+        margin-top: 15px
+        th
+            font-weight: 600
+            padding-bottom: 5px
+        td
+            position: relative
+            vertical-align: top
+            padding: 5px 0 5px 5px
+        .playlist-artist
+            display: flex
+            justify-content: space-between
+            margin-bottom: 2px
+            &__name
+                padding: 5px
+                font-size: 0.9em
+                outline: none
+                width: 80%
+            &__remove
+                width: 17%
+
+.autocomplete
+    left: 5px
+    position: absolute
+    width: calc(80% - 5px)
+    background: hsl(0, 0%, 100%)
+    z-index: 9999
+    border: 1px solid black
+    overflow-x: auto
+    &__content-wrapper
+        display: inline-block
+        min-width: 100%
+    &__item
+        box-sizing: border-box
+        padding: 5px
+        border-bottom: 1px solid hsl(0, 0, 90%)
+        cursor: pointer
+
+.add-input
+    display: block
+    padding: 5px
+    width: 80%
+
+.send
+    display: block
+    padding: 5px
+    margin: 10px auto
+    width: 200px
+    font-size: 1em
+
+.min-tracks
+    display: block
+    margin: 15px auto
+    width: 200px
+    height: 30px
+    font-size: 1em
+    background: hsl(0, 0%, 100%)
+    outline: none
+    border: none
+    border-radius: 5px
+    padding: 5px
+
+.validation-error
+    border-color: red
+
+.error
+    margin-top: 5px
+    width: 100%
+    text-align: center
+    color: red

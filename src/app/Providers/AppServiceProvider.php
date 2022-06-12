@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Views\SettingsComposer;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /* 
+        /*
         Laravel on Replit - Compatibility
 
         DO NOT REMOVE. App URL is needed for compatibility over php artisan serve.
@@ -33,5 +35,8 @@ class AppServiceProvider extends ServiceProvider
           \URL::forceRootUrl(\Config::get('app.url'));
           \URL::forceScheme('https');
         }
+
+        View::composer('settings', SettingsComposer::class);
+
     }
 }

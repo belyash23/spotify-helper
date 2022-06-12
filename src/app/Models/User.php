@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasMany(Playlist::class);
     }
 
+    public function settings()
+    {
+        return $this->hasMany(Settings::class);
+    }
+
     public static function findByTelegramId($telegramId)
     {
         return self::query()->where('telegram_id', $telegramId)->first();

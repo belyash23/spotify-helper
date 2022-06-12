@@ -18,3 +18,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/callback', \App\Http\Controllers\CallbackController::class);
+Route::post('/getSettingsView', [\App\Http\Controllers\SettingsController::class, 'getView']);
+Route::get('/getToken', [\App\Http\Controllers\SettingsController::class, 'getToken']);
+Route::post('/saveSettings', [\App\Http\Controllers\SettingsController::class, 'saveSettings']);
