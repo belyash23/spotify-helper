@@ -15,15 +15,12 @@ export default function getToken() {
             switch (status) {
                 case 200:
                     const token = response.text();
-
-
-
-                    resolve(token);
-                    break
+                    return token;
                 default:
-                    resolve(false)
+                    return false;
             }
         }).then(token => {
+            console.log(token);
             const cacheData = {
                 date: Date.now(),
                 token: token
