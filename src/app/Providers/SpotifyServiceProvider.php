@@ -43,15 +43,25 @@ class SpotifyServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             SpotifyWebAPI::class,
-            function ($app, $id) {
-                if (!$id) {
+            function ($app, $id = null, $clientCredentials = false) {
+                if (!$id && !$clientCredentials) {
                     return false;
+                }
+                
+                $session = $this->app->make(Session::class);
+
+                if ($clientCredentials) {
+                    $session->requestCredentialsToken();
+                    $accessToken = $session->getAccessToken();
+
+                    $api = new SpotifyWebAPI();
+                    $api->setAccessToken($accessToken);
+
+                    return $api;
                 }
                 $user = User::findByTelegramId($id);
                 $accessToken = $user->spotify_access_token;
                 $refreshToken = $user->spotify_refresh_token;
-
-                $session = $this->app->make(Session::class);
 
                 $session->setAccessToken($accessToken);
                 $session->setRefreshToken($refreshToken);
