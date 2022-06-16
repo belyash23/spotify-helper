@@ -22,6 +22,7 @@ class User extends Authenticatable
 
     public $timestamps = false;
     protected static $playlistsLimit = 50;
+    protected static $tracksLimit = 50;
     protected static $defaultSettings = [
         'defaultPlaylistId' => null,
         'minTracks' => null
@@ -98,7 +99,7 @@ class User extends Authenticatable
 
             $settings = [];
             foreach (self::$defaultSettings as $key => $value) {
-                $settings []= [
+                $settings [] = [
                     'user_id' => $user->id,
                     'key' => $key,
                     'value' => $value
@@ -109,5 +110,63 @@ class User extends Authenticatable
             return $user;
         }
         return false;
+    }
+
+    public function getSavedTracks($lastSavedTrackDate = null)
+    {
+        $api = App::make(SpotifyWebAPI::class, ['id' => $this->telegram_id]);
+
+        $tracks = [];
+        $offset = 0;
+        do {
+            $data = $api->getMySavedTracks(
+                [
+                    'limit' => self::$tracksLimit,
+                    'offset' => $offset
+                ]
+            );
+
+            if ($lastSavedTrackDate && strtotime(end($data->items)->added_at) <= $lastSavedTrackDate) {
+                foreach ($data->items as $track) {
+                    if (strtotime($track->added_at) <= $lastSavedTrackDate) break;
+                    $tracks []= $track;
+                }
+                break;
+            }
+
+            $tracks = array_merge($tracks, $data->items);
+
+            $leftTracks = $data->total - self::$tracksLimit - $offset;
+            $offset += self::$tracksLimit;
+        } while ($leftTracks > 0);
+
+        return self::filterTracksData($tracks);
+    }
+
+    protected static function filterTracksData($tracks)
+    {
+        return array_map(
+            function ($track) {
+                return [
+                    'date' => strtotime($track->added_at),
+                    'artist' => $track->track->artists[0]->id,
+                    'uri' => $track->track->uri
+                ];
+            },
+            $tracks
+        );
+    }
+
+    public function getSettings()
+    {
+        $settings = $this->settings()->get();
+
+        $filteredSettings = [];
+        foreach($settings as $setting)
+        {
+            $filteredSettings[$setting->key] = $setting->value;
+        }
+
+        return $filteredSettings;
     }
 }

@@ -20,7 +20,6 @@ export default function getToken() {
                     return false;
             }
         }).then(token => {
-            console.log(token);
             const cacheData = {
                 date: Date.now(),
                 token: token
