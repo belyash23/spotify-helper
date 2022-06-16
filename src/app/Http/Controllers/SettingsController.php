@@ -9,6 +9,7 @@ use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use SpotifyWebAPI\Session;
+use WeStacks\TeleBot\Laravel\TeleBot;
 
 class SettingsController extends Controller
 {
@@ -115,6 +116,13 @@ class SettingsController extends Controller
         )->first();
         $minTracksSettings->value = $minTracksCount;
         $minTracksSettings->save();
+
+        TeleBot::sendMessage(
+            [
+                'chat_id' => $telegramId,
+                'text' => 'Настройки сохранены',
+            ]
+        );
 
         return response()->noContent();
     }
