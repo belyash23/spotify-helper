@@ -147,7 +147,7 @@ class SortCommand extends CommandHandler
         foreach ($playlists as $key => $playlist) {
             if ($key == 'default') {
                 $this->sortDefaultPlaylist($playlist, $settings);
-            } else {
+            } elseif (count($playlist['tracks'])) {
                 $this->api->addPlaylistTracks($playlist['id'], array_values($playlist['tracks']));
             }
         }
@@ -187,12 +187,20 @@ class SortCommand extends CommandHandler
         }
 
         if ($settings['defaultPlaylistId']) {
+            $tracks = $playlist['tracks'];
+            if (isset($addedTracks)) {
+                foreach ($tracks as $index => $track) {
+                    if (in_array($track['uri'], $addedTracks)) {
+                        unset($tracks[$index]);
+                    }
+                }
+            }
             $addedTracks = [];
             $spotifyTracksCount = count($spotifyTracksFiltered);
             foreach (array_reverse($spotifyTracksFiltered) as $index => $spotifyTrack) {
                 $tracksToAdd = [];
                 $position = false;
-                foreach ($playlist['tracks'] as $track) {
+                foreach ($tracks as $track) {
                     if ($track['artist'] == $spotifyTrack['artist']) {
                         $tracksToAdd [] = $track['uri'];
                         $position = $spotifyTracksCount - $index;
@@ -206,10 +214,12 @@ class SortCommand extends CommandHandler
                     $addedTracks = array_merge($addedTracks, $tracksToAdd);
                 }
             }
-            $tracksUris = array_map(fn($track) => $track['uri'], $playlist['tracks']);
+            $tracksUris = array_map(fn($track) => $track['uri'], $tracks);
             $tracksToAdd = array_diff($tracksUris, $addedTracks);
 
-            $this->api->addPlaylistTracks($playlist['id'], array_values($tracksToAdd));
+            if (count($tracksToAdd)) {
+                $this->api->addPlaylistTracks($playlist['id'], array_values($tracksToAdd));
+            }
         }
     }
 
