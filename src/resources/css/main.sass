@@ -61,25 +61,33 @@ input
 
 .associate-playlists
     &__table
+        width: 100%
         margin-top: 15px
         th
             font-weight: 600
             padding-bottom: 5px
         td
+            word-break: break-word
             position: relative
             vertical-align: top
             padding: 5px 0 5px 5px
         .playlist-artist
             display: flex
             justify-content: space-between
+            align-items: center
             margin-bottom: 2px
+            width: 100%
+            &__img
+                height: auto
+                width: 25px
             &__name
                 padding: 5px
                 font-size: 0.9em
                 outline: none
-                width: 80%
+                width: calc(95% - 25px - 30px)
             &__remove
-                width: 17%
+                width: 30px
+                height: 30px
 
 .autocomplete
     left: 5px
@@ -97,11 +105,15 @@ input
         padding: 5px
         border-bottom: 1px solid hsl(0, 0, 90%)
         cursor: pointer
+        line-height: 24px
+        &-img
+            width: 20px
 
-.add-input
+.add-artist
     display: block
     padding: 5px
-    width: 80%
+    margin-left: calc(25px + 2.5%)
+    width: calc(95% - 25px - 30px)
 
 .send
     display: block

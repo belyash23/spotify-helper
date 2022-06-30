@@ -15,9 +15,12 @@ export default function autocomplete(elem) {
         searchArtists(value, 5).then(artists => {
             const autocompleteData = [];
             artists.items.forEach(artist => {
+                const defaultImgUrl = './img/default.png';
+                const imgUrl = artist.images[2] ? artist.images[2].url : defaultImgUrl;
                 autocompleteData.push({
                     id: artist.id,
-                    text: artist.name
+                    text: artist.name,
+                    img: imgUrl
                 });
             });
 
@@ -26,14 +29,16 @@ export default function autocomplete(elem) {
             autocomplete.addEventListener('click', e => {
                 if (e.target.classList.contains('autocomplete__item')) {
                     elem.dataset.id = e.target.dataset.id;
-                    elem.value = e.target.textContent;
-                    elem.dataset.text = e.target.textContent;
+                    elem.value = e.target.innerText.trim();
+                    elem.dataset.text = e.target.innerText.trim();
+                    elem.dataset.img = e.target.dataset.img;
+                    elem.previousElementSibling.src = elem.dataset.img;
                     elem.classList.remove('validation-error');
                     autocomplete.remove();
                 }
             })
             const autocompleteElem = document.querySelector('.autocomplete');
-            if(autocompleteElem) document.querySelector('.autocomplete').remove();
+            if (autocompleteElem) document.querySelector('.autocomplete').remove();
 
             elem.parentNode.after(autocomplete);
         });
@@ -48,8 +53,12 @@ function getAutocompleteElem(autocompleteData) {
     autocompleteData.forEach(item => {
         const autocompleteItem = document.createElement('div');
         autocompleteItem.classList.add('autocomplete__item')
+        autocompleteItem.innerHTML = `
+            <img class="autocomplete__item-img" src="${item.img}">
+            ${item.text}
+        `
         autocompleteItem.dataset.id = item.id;
-        autocompleteItem.textContent = item.text;
+        autocompleteItem.dataset.img = item.img;
         autocomplete.querySelector('.autocomplete__content-wrapper').append(autocompleteItem);
     });
 

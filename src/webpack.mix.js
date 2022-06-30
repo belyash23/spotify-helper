@@ -17,3 +17,4 @@ mix.disableNotifications()
         //
     ])
     .copy('resources/svg/preloader.svg', 'public/svg')
+    .copy('resources/img/default.png', 'public/img')
