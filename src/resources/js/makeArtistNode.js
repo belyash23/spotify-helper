@@ -6,6 +6,7 @@ export default function makeArtistNode() {
     playlistArtist.classList.add('playlist-artist');
     playlistArtist.innerHTML =
         `
+            <img src="./img/default.png" alt="" class="playlist-artist__img">
             <input type="text" value="" class="playlist-artist__name">
             <button class="playlist-artist__remove" type="button">-</button>
         `;

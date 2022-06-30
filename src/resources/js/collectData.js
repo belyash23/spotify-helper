@@ -26,7 +26,8 @@ function getPlaylistsData() {
         playlist.querySelectorAll('.playlist-artist__name').forEach(artist => {
             artists.push({
                 id: artist.dataset.id,
-                name: artist.dataset.text
+                name: artist.dataset.text,
+                img: artist.dataset.img
             });
         });
 

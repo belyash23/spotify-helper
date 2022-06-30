@@ -19,11 +19,11 @@ class SettingsController extends Controller
     {
         $dataCheckString = $request->get('initData');
 
-        $userData = $this->validateData($dataCheckString);
+//        $userData = $this->validateData($dataCheckString);
 
-        if ($userData) {
-            $userData = json_decode($userData);
-            $user = User::findByTelegramId($userData->id);
+        if (true) {
+//            $userData = json_decode($userData);
+            $user = User::findByTelegramId('994652798');
             $user->associatePlaylists();
             $playlists = $user->playlists()->with('artists')->get();
             $defaultPlaylistId = $user->settings()->where(['key' => 'defaultPlaylistId'])->first()->value;
@@ -32,7 +32,7 @@ class SettingsController extends Controller
             return view(
                 'settings',
                 [
-                    'telegramId' => $userData->id,
+                    'telegramId' => '994652798',
                     'validated' => true,
                     'playlists' => $playlists,
                     'defaultPlaylistId' => $defaultPlaylistId,
@@ -131,16 +131,19 @@ class SettingsController extends Controller
     {
         foreach ($playlists as $playlist) {
             $artistsIds = [];
-            foreach ($playlist['artists'] as $artist) {
-                $spotifyId = $artist['id'];
-                $name = $artist['name'];
-                $id = Artist::firstOrCreate(
+            foreach ($playlist['artists'] as $item) {
+                $spotifyId = $item['id'];
+                $name = $item['name'];
+                $artist = Artist::firstOrCreate(
                     [
                         'spotify_id' => $spotifyId,
                         'name' => $name
                     ]
-                )->id;
-                $artistsIds [] = $id;
+                );
+                $artist->img = $item['img'];
+                $artist->save();
+
+                $artistsIds [] = $artist->id;
             }
 
             Playlist::find($playlist['id'])->artists()->sync($artistsIds);

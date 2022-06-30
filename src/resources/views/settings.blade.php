@@ -60,8 +60,13 @@
                             <td>
                                 @foreach ($playlist->artists as $artist)
                                     <div class="playlist-artist">
-                                        <input type="text" value="{{ $artist->name }}" class="playlist-artist__name"
-                                               data-id="{{ $artist->spotify_id }}" data-text="{{ $artist->name }}">
+                                        <img src="{{ $artist->img ?: asset('img/default.png') }}" alt=""
+                                             class="playlist-artist__img">
+                                        <input type="text" value="{{ $artist->name }}"
+                                               class="playlist-artist__name"
+                                               data-id="{{ $artist->spotify_id }}"
+                                               data-text="{{ $artist->name }}"
+                                               data-img="{{$artist->img}}">
                                         <button class="playlist-artist__remove" type="button">-</button>
                                     </div>
                                 @endforeach

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('spotify_id');
             $table->string('name');
+            $table->string('img')->nullable();
         });
     }
 
