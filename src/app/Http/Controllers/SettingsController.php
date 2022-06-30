@@ -19,11 +19,11 @@ class SettingsController extends Controller
     {
         $dataCheckString = $request->get('initData');
 
-//        $userData = $this->validateData($dataCheckString);
+        $userData = $this->validateData($dataCheckString);
 
-        if (true) {
-//            $userData = json_decode($userData);
-            $user = User::findByTelegramId('994652798');
+        if ($userData) {
+            $userData = json_decode($userData);
+            $user = User::findByTelegramId($userData->id);
             $user->associatePlaylists();
             $playlists = $user->playlists()->with('artists')->get();
             $defaultPlaylistId = $user->settings()->where(['key' => 'defaultPlaylistId'])->first()->value;
@@ -32,7 +32,7 @@ class SettingsController extends Controller
             return view(
                 'settings',
                 [
-                    'telegramId' => '994652798',
+                    'telegramId' => $userData->id,
                     'validated' => true,
                     'playlists' => $playlists,
                     'defaultPlaylistId' => $defaultPlaylistId,
